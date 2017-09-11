@@ -3,3 +3,5 @@ catalog.txt
 .git
 *.pyc
 music.db
+db_data.py
+db_setup.py
