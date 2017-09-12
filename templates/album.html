@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %} NerdyCritics | {{album.title}}{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row mt-4 mr-2 mb-4 ml-2">
+  <div class="col-sm-12">
+    <div class="card" style="width: 20rem; margin: 2rem auto;">
+      <img class="card-img-top" src="{{album.cover}}" alt="Album cover of {{album.title}} by {{album.artist}}">
+      <div class="card-body">
+        <h4 class="card-title">{{album.title}}</h4>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Artist: </strong><span>{{album.artist}}</span></li>
+        <li class="list-group-item"><strong>Genre: </strong><span>{{album.genre}}</span></li>
+        <li class="list-group-item"><strong>Release Date: </strong><span>{{album.release_date}}</span></li>
+        <li class="list-group-item"><strong>Number of Tracks: </strong><span>{{album.number_of_track}}</span></li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+{% endblock %}
