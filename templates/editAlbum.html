@@ -1,1 +1,44 @@
+{% extends "layout.html" %}
 
+{% block title %}NerdyCritics | Edit{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h3 class="text-center mt-4">Edit The Album: {{album.title}}</h3>
+</div>
+
+<div class="container mt-4">
+  <form method="POST" action="{{url_for("editAlbum", album_id=album_id)}}">
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput"><h5>Album Title:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="{{album.title}}">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput2"><h5>Artist:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput2" name="artist" placeholder="{{album.artist}}">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput3"><h5>Genre:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput3" name="genre" placeholder="{{album.genre}}">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput4"><h5>Release Date:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput4" name="release_date" placeholder="{{album.release_date}}">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput5"><h5>Number of Tracks:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput5" name="number_of_track" placeholder="{{album.number_of_track}}">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="formGroupExampleInput6"><h5>Album Cover:</h5></label>
+      <input type="text" class="form-control" id="formGroupExampleInput6" name="cover" placeholder="{{album.cover}}">
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Edit!</button>
+      </div>
+  </form>
+  </div>
+
+{% endblock %}
