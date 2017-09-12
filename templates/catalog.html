@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Welcome!{% endblock %}
+{% block title %}NerdyCritics | Welcome!{% endblock %}
 
 {% block body %}
 
@@ -18,6 +18,8 @@
         <li class="list-group-item"><strong>Genre: </strong><span>{{album.genre}}</span></li>
         <li class="list-group-item"><strong>Release Date: </strong><span>{{album.release_date}}</span></li>
         <li class="list-group-item"><strong>Number of Tracks: </strong><span>{{album.number_of_track}}</span></li>
+        <li class="list-group-item"><button type="button" class="btn btn-primary btn-block text-left">Edit</button></li>
+        <li class="list-group-item"><button type="button" class="btn btn-light">Delete</button></li>
       </ul>
     </div>
   </div>
