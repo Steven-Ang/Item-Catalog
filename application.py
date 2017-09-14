@@ -1,5 +1,5 @@
 # Import all of the necessary modules for the project
-from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Album
@@ -47,6 +47,7 @@ def createAlbum():
             cover=request.form["cover"])
         session.add(newAlbum)
         session.commit()
+        flash("Success! A new album has been added to the database!")
         return redirect(url_for('showAlbums'))
     else:
         return render_template("createAlbum.html")
@@ -66,6 +67,7 @@ def editAlbum(album_id):
             albumToEdit.cover = request.form["cover"]
             session.add(albumToEdit)
             session.commit()
+            flash("Success! The album has been edited!")
         return redirect(url_for("showAlbums"))
     else:
         return render_template("editAlbum.html", album=albumToEdit, album_id=album_id)
@@ -78,6 +80,7 @@ def deleteAlbum(album_id):
     if request.method == "POST":
         session.delete(albumToDelete)
         session.commit()
+        flash("Success! One album has been removed from the database!")
         return redirect(url_for("showAlbums"))
     else:
         return render_template("deleteAlbum.html", album=albumToDelete, album_id=album_id)
@@ -85,5 +88,6 @@ def deleteAlbum(album_id):
 
 
 if __name__ == "__main__":
+    app.secret_key = "DoctorWantsToEatSomeTaco!"
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
