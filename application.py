@@ -86,6 +86,20 @@ def deleteAlbum(album_id):
         return render_template("deleteAlbum.html", album=albumToDelete, album_id=album_id)
 
 
+# Endpoint for the all of the album from the catalog
+@app.route("/albums/JSON/")
+def showAlbumsJson():
+    albumsJSON = session.query(Album).all()
+    return jsonify(Album=[i.serialize for i in albumsJSON])
+
+
+# Endpoint for individual album
+@app.route("/albums/<int:album_id>/JSON/")
+def showAlbumJson(album_id):
+    albumJSON = session.query(Album).filter_by(id=album_id).one()
+    return jsonify(Album=albumJSON.serialize)
+
+
 
 if __name__ == "__main__":
     app.secret_key = "DoctorWantsToEatSomeTaco!"
