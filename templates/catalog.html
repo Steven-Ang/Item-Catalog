@@ -8,10 +8,12 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 
-<div class="container mt-4" style="color: lightgreen;">
-{% for message in messages %}
-  <p class="text-center"><strong>{{message}}</strong></p>
-  {% endfor %}
+<div class="container-fluid" style="background-color: lightgreen; color: white;">
+  <div class="container">
+  {% for message in messages %}
+    <p class="text-center"><strong>{{message}}</strong></p>
+    {% endfor %}
+  </div>
 </div>
 {% endif %}
 {% endwith %}
