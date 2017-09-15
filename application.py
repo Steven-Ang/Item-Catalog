@@ -1,8 +1,14 @@
 # Import all of the necessary modules for the project
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, jsonify
+from flask import url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Album
+
+# Import modules for authentication
+from flask import session as login_session
+import random
+import string
 
 app = Flask(__name__)
 
@@ -13,6 +19,15 @@ Base.metadata.bind = engine
 # Create database session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Create anti-forgery state token
+@app.route('/login')
+def showLogin():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
+    login_session['state'] = state
+    return render_template('login.html', STATE=state)
 
 
 # Show all of the existing albums
@@ -70,7 +85,10 @@ def editAlbum(album_id):
             flash("Success! The album has been edited!")
         return redirect(url_for("showAlbums"))
     else:
-        return render_template("editAlbum.html", album=albumToEdit, album_id=album_id)
+        return render_template(
+            "editAlbum.html",
+            album=albumToEdit,
+            album_id=album_id)
 
 
 # Delete album from the database
@@ -83,7 +101,10 @@ def deleteAlbum(album_id):
         flash("Success! One album has been removed from the database!")
         return redirect(url_for("showAlbums"))
     else:
-        return render_template("deleteAlbum.html", album=albumToDelete, album_id=album_id)
+        return render_template(
+            "deleteAlbum.html",
+            album=albumToDelete,
+            album_id=album_id)
 
 
 # Endpoint for the all of the album from the catalog
@@ -98,7 +119,6 @@ def showAlbumsJson():
 def showAlbumJson(album_id):
     albumJSON = session.query(Album).filter_by(id=album_id).one()
     return jsonify(Album=albumJSON.serialize)
-
 
 
 if __name__ == "__main__":
