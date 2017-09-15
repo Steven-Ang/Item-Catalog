@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}NerdyCritics | Login{% endblock %}
+
+{% block body %}
+
+<div id="signInButton">
+  <span class="g-signin"
+     data-scope="openid email"
+     data-clientid="324142460137-bpt4phr1jltvfvt49bseb8d9id6i7pic.apps.googleusercontent.com"
+     data-redirecturi="postmessage"
+     data-accesstype="offline"
+     data-cookiepolicy="single_host_origin"
+     data-callback="signInCallback"
+     data-approvalprompt="force">
+  </span>
+</div>
+
+<!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+{% endblock %}
