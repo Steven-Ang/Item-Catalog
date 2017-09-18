@@ -8,6 +8,14 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 
+class User(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    picture = Column(String(250))
+
 class Album(Base):
     __tablename__ = 'album'
 
@@ -18,6 +26,8 @@ class Album(Base):
     release_date = Column(String(4), nullable=False)
     number_of_track = Column(String(2), nullable=False)
     cover = Column(String(300), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     # Returns object data in easily serializeable format
     @property
