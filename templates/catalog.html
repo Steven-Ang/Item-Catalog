@@ -32,8 +32,10 @@
         <li class="list-group-item"><strong>Genre: </strong><span>{{album.genre}}</span></li>
         <li class="list-group-item"><strong>Release Date: </strong><span>{{album.release_date}}</span></li>
         <li class="list-group-item"><strong>Number of Tracks: </strong><span>{{album.number_of_track}}</span></li>
-        <li class="list-group-item"><button type="button" class="btn btn-primary btn-block text-left">Edit</button></li>
-        <li class="list-group-item"><button type="button" class="btn btn-light">Delete</button></li>
+        <div>
+          <a href="{{url_for("editAlbum", album_id=album.id)}}" class="btn btn-success btn-block text-center" style="border-radius: 0px;" role="button">Edit</a>
+          <a href="{{url_for("deleteAlbum", album_id=album.id)}}" class="btn btn-primary btn-block text-center" style="border-radius: 0px; margin: 0;">Delete</a>
+        </div>
       </ul>
     </div>
   </div>
