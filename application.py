@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 from flask import url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Album
+from db_setup import Base, Album, User
 
 # Import modules for authentication
 from flask import session as login_session
@@ -33,6 +33,29 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Helper Functions
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+
 # Show all of the existing albums
 # from the database on the page "/albums/"
 # and the root of the web application.
@@ -55,6 +78,8 @@ def showAlbum(album_id):
 # Unauthenticated users are not permitted to access this page.
 @app.route("/albums/new/", methods=["GET", "POST"])
 def createAlbum():
+    if "username" not in login_session:
+        return redirect("/login")
     if request.method == "POST":
         newAlbum = Album(
             title=request.form['title'],
@@ -62,7 +87,8 @@ def createAlbum():
             genre=request.form["genre"],
             release_date=request.form["release_date"],
             number_of_track=request.form["number_of_track"],
-            cover=request.form["cover"])
+            cover=request.form["cover"],
+            user_id=login_session['user_id'])
         session.add(newAlbum)
         session.commit()
         flash("Success! A new album has been added to the database!")
@@ -74,6 +100,8 @@ def createAlbum():
 # Edit album from the database
 @app.route("/albums/edit/<int:album_id>/", methods=["GET", "POST"])
 def editAlbum(album_id):
+    if "username" not in login_session:
+        return redirect("/login")
     albumToEdit = session.query(Album).filter_by(id=album_id).one()
     if request.method == "POST":
         if request.form["title"]:
@@ -97,6 +125,8 @@ def editAlbum(album_id):
 # Delete album from the database
 @app.route("/albums/delete/<int:album_id>/", methods=["GET", "POST"])
 def deleteAlbum(album_id):
+    if "username" not in login_session:
+        return redirect("/login")
     albumToDelete = session.query(Album).filter_by(id=album_id).one()
     if request.method == "POST":
         session.delete(albumToDelete)
@@ -225,13 +255,14 @@ def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
         print 'Access Token is None'
-        response = make_response(json.dumps('Current user not connected.'), 401)
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: '
     print login_session['username']
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']   # noqa
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print 'result is '
@@ -246,7 +277,8 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 
