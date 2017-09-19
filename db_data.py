@@ -22,49 +22,62 @@ session = DBSession()
 # List of Albums
 album_1 = Album(title="Room for Squares",
                 artist="John Mayer",
-                genre="Rock", release_date="2001",
+                genre="Rock",
+                release_date="2001",
                 number_of_track="13",
                 cover="https://images-na.ssl-images-amazon.com/images/I/81xGr0YG-IL._SY355_.jpg")   # noqa
 
 session.add(album_1)
 session.commit()
 
-album_2 = Album(title="Between Two lungs",
-                artist="Florence and The Machine",
-                genre="Alternative", release_date="2010",
-                number_of_track="12",
-                cover="https://upload.wikimedia.org/wikipedia/en/2/26/Florence_and_the_Machine_-_Lungs.png")   # noqa
+album_2 = Album(title="Heavier Things",
+                artist="John Mayer",
+                genre="Rock",
+                release_date="2003",
+                number_of_track="10",
+                cover="https://images-na.ssl-images-amazon.com/images/I/81s%2Bgnc7XsL._SX425_.jpg")   # noqa
 
 session.add(album_2)
 session.commit()
 
-album_3 = Album(title="Frank",
-                artist="Amy Winehouse",
-                genre="Soul",
-                release_date="2001",
-                number_of_track="13",
-                cover="https://upload.wikimedia.org/wikipedia/en/e/e5/Amy_Winehouse_-_Frank.png")   # noqa
+album_3 = Album(title="Continuum",
+                artist="John Mayer",
+                genre="Rock",
+                release_date="2006",
+                number_of_track="12",
+                cover="https://vignette3.wikia.nocookie.net/lyricwiki/images/d/de/John_Mayer_-_Continuum_%28alt%29.jpg/revision/latest?cb=20121018083846")   # noqa
 
 session.add(album_3)
 session.commit()
 
-album_4 = Album(title="One In a Million",
-                artist="Aaliyah",
-                genre="R&B", release_date="1996",
-                number_of_track="17",
-                cover="https://vignette3.wikia.nocookie.net/lyricwiki/images/f/f6/Aaliyah_-_One_in_a_Million.jpg/revision/latest?cb=20080423131927")   # noqa
+album_4 = Album(title="Battle Studies",
+                artist="John Mayer",
+                genre="Rock",
+                release_date="2009",
+                number_of_track="11",
+                cover="https://upload.wikimedia.org/wikipedia/en/a/a7/JohnMayerBattleStudies.jpg")   # noqa
 
 session.add(album_4)
 session.commit()
 
-album_5 = Album(title="Melodrama",
-                artist="Lorde",
-                genre="Pop",
-                release_date="2017",
-                number_of_track="11",
-                cover="https://assets.vogue.com/photos/58b9984661298051ac278def/master/pass/00-holding-lorde-album-art.jpg")   # noqa
+album_5 = Album(title="Born and Raised",
+                artist="John Mayer",
+                genre="Rock",
+                release_date="2012",
+                number_of_track="12",
+                cover="http://davidadriansmith.com/wp-content/uploads//2012/05/mayer_font.jpg")   # noqa
 
 session.add(album_5)
+session.commit()
+
+album_6 = Album(title="Paradise Valley",
+                artist="John Mayer",
+                genre="Rock",
+                release_date="2013",
+                number_of_track="11",
+                cover="https://upload.wikimedia.org/wikipedia/en/5/5c/Paradise_Valley_cover%2C_by_John_Mayer.jpg")   # noqa
+
+session.add(album_6)
 session.commit()
 
 
