@@ -90,7 +90,8 @@ def createAlbum():
             genre=request.form["genre"],
             release_date=request.form["release_date"],
             number_of_track=request.form["number_of_track"],
-            cover=request.form["cover"])
+            cover=request.form["cover"],
+            user_id=login_session['user_id'])
         session.add(newAlbum)
         session.commit()
         flash("Success! A new album has been added to the database!")
@@ -105,6 +106,10 @@ def editAlbum(album_id):
     if "username" not in login_session:
         return redirect("/login")
     albumToEdit = session.query(Album).filter_by(id=album_id).one()
+    if albumToEdit.user_id != login_session['user_id']:
+        return """<script>(function(evenet) {alert(
+    "You don't have the permission to edit this item. It does not belong to you."
+    );})();</script>"""
     if request.method == "POST":
         if request.form["title"]:
             albumToEdit.title = request.form["title"]
@@ -130,6 +135,10 @@ def deleteAlbum(album_id):
     if "username" not in login_session:
         return redirect("/login")
     albumToDelete = session.query(Album).filter_by(id=album_id).one()
+    if albumToDelete.user_id != login_session['user_id']:
+        return """<script>(function() {alert(
+    "You don't have the permission to delete this item. It does not belong to you."
+    );})();</script>"""
     if request.method == "POST":
         session.delete(albumToDelete)
         session.commit()
