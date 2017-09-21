@@ -7,10 +7,11 @@ from db_setup import Base, Album, User
 
 # Import modules for authentication
 from flask import session as login_session
-import random
-import string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
+from functools import wraps
+import random
+import string
 import httplib2
 import json
 from flask import make_response
@@ -56,6 +57,16 @@ def getUserID(email):
         return None
 
 
+# To check whether the user is authenticated to view the page
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "username" not in login_session:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 # Show all of the existing albums
 # from the database on the page "/albums/"
 # and the root of the web application.
@@ -80,9 +91,8 @@ def showAlbum(album_id):
 # by going to the page "/albums/new".
 # Unauthenticated users are not permitted to access this page.
 @app.route("/albums/new/", methods=["GET", "POST"])
+@login_required
 def createAlbum():
-    if "username" not in login_session:
-        return redirect("/login")
     if request.method == "POST":
         newAlbum = Album(
             title=request.form['title'],
@@ -102,14 +112,13 @@ def createAlbum():
 
 # Edit album from the database
 @app.route("/albums/edit/<int:album_id>/", methods=["GET", "POST"])
+@login_required
 def editAlbum(album_id):
-    if "username" not in login_session:
-        return redirect("/login")
     albumToEdit = session.query(Album).filter_by(id=album_id).one()
     if albumToEdit.user_id != login_session['user_id']:
         return """<script>(function(evenet) {alert(
-    "You don't have the permission to edit this item. It does not belong to you."
-    );})();</script>"""
+    "You don't have the permission to edit this item." +
+    "It does not belong to you.");})();</script>"""
     if request.method == "POST":
         if request.form["title"]:
             albumToEdit.title = request.form["title"]
@@ -131,14 +140,13 @@ def editAlbum(album_id):
 
 # Delete album from the database
 @app.route("/albums/delete/<int:album_id>/", methods=["GET", "POST"])
+@login_required
 def deleteAlbum(album_id):
-    if "username" not in login_session:
-        return redirect("/login")
     albumToDelete = session.query(Album).filter_by(id=album_id).one()
     if albumToDelete.user_id != login_session['user_id']:
         return """<script>(function() {alert(
-    "You don't have the permission to delete this item. It does not belong to you."
-    );})();</script>"""
+    "You don't have the permission to delete this item." +
+    "It does not belong to you.");})();</script>"""
     if request.method == "POST":
         session.delete(albumToDelete)
         session.commit()
