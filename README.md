@@ -1,5 +1,5 @@
 # Item Catalog
-The web application is built with the python web framework - Flask and uses CSS framework - Bootstrap for the styling of the application. The application supports the CRUD operations (Create, Read, Update, Delete) and uses Google OAuth provider for user authentication. Only authenticated users are allowed to perform CRUD operations.  
+The web application is built with the Python web framework - Flask. The application supports the CRUD operations (Create, Read, Update, Delete) and uses Google OAuth provider for user authentication. Only authenticated users are allowed to perform CRUD operations.  
 
 # Prerequisites:
 ### You will need to have following technologies to run this program:
@@ -28,8 +28,8 @@ The web application is built with the python web framework - Flask and uses CSS 
 5. The rest of it will be cover in the **How To Run The Program** section.
 
 # JSON Endpoints:
-* **"/albums/JSON"** - Shows the data for all albums
-* **"/albums/<int:album_id>/JSON"** - Shows the date of the album associated with their ID
+* **"/albums/JSON"** - Shows the data for all of the album
+* **"/albums/<int:album_id>/JSON"** - Shows the data of the album associated with their ID
 
 # How To Run The Program:
 * If you haven't already, download all of the required technologies needed for this program from the **Installation Guide**.
